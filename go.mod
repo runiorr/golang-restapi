@@ -1,3 +1,3 @@
-module go-api-di
+module msg-app
 
 go 1.19

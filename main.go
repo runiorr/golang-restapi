@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"go-api-di/src/services/message"
+	"msg-app/src/services/message"
 )
 
 func main() {
