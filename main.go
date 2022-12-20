@@ -7,23 +7,19 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
-	"msg-app/api/controllers/message"
+	"msg-app/api"
 	"msg-app/profiler"
 )
 
 func main() {
 	go profiler.MemoryProfiler()
 
-	r := chi.NewRouter()
-
-	r.Use(middleware.Logger)
-
-	r.Get("/email", message.HandleEmails)
-	r.Get("/sms", message.HandleSMS)
-
+	router := chi.NewRouter()
+	router.Use(middleware.Logger)
+	api.SetupRoutes(router)
 	fmt.Println("App listening at :8080")
-	err := http.ListenAndServe(":8080", r)
-	if err != nil {
+
+	if err := http.ListenAndServe(":8080", router); err != nil {
 		fmt.Println(err)
 	}
 }
