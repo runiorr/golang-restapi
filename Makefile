@@ -13,13 +13,17 @@ install-air:
 dev:
 	air
 
+cover:
+	@/usr/bin/python -c "import webbrowser; webbrowser.open('cover.html');" &
+
 build:
 	GOARCH=$(GOARCH) GOOS=$(GOOS) go build -o $(BIN_PATH)/$(EXEC) $(EXEC).go
 
-run:
-	${BIN_PATH}/$(EXEC)
 
 clean:
 	@if [ $(BIN_FILES) = 0 ]; then echo "Bin folder is empty"; \
 	else go clean && rm $(BIN_PATH)/* ;\
 	fi
+
+run:
+	${BIN_PATH}/$(EXEC)

@@ -10,7 +10,7 @@ import (
 func MemoryProfiler() {
 	done := make(chan bool)
 	fileWriter := fact.FileSenderFactory()
-	fileToWrite := "memoria.txt"
+	fileToWrite := "profiler/memoria.txt"
 	var lastAlloc uint64
 	var mem runtime.MemStats
 	var memUsage uint64

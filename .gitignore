@@ -22,5 +22,10 @@
 
 # Profiling
 memoria.txt
+
+# Air builds
 tmp
-coverage
+cover.html
+
+# Created by tests
+*_test.txt
