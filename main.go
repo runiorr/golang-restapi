@@ -7,15 +7,18 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"msg-app/api/controllers/message"
+	"msg-app/profiler"
 )
 
 func main() {
+	go profiler.MemoryProfiler()
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)
 
-	r.Get("/emails", message.HandleEmails)
-	r.Get("/smss", message.HandleSMS)
+	r.Get("/email", message.HandleEmails)
+	r.Get("/sms", message.HandleSMS)
 
 	http.ListenAndServe(":3000", r)
 }
