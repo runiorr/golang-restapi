@@ -1,23 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 
-	"msg-app/src/services/message"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+
+	"msg-app/api/controllers/message"
 )
 
 func main() {
-	email_sender := message.EmailSenderFactory()
+	r := chi.NewRouter()
 
-	err := email_sender.Send("john@example.com", "Hello, John!")
-	if err != nil {
-		fmt.Println(err)
-	}
+	r.Use(middleware.Logger)
 
-	sms_sender := message.SMSSenderFactory()
+	r.Get("/emails", message.HandleEmails)
+	r.Get("/smss", message.HandleSMS)
 
-	err_ := sms_sender.Send("john@example.com", "Hello, John!")
-	if err_ != nil {
-		fmt.Println(err_)
-	}
+	http.ListenAndServe(":3000", r)
 }
