@@ -30,18 +30,15 @@ func (api *API) SetupRouter() {
 
 	router.Use(middleware.Logger)
 
+	// TODO
 	// router.Post("/login", login)
 	// router.Post("/signup", login)
-
-	// Apply auth middleware to only `GET /users/{id}`
-	// router.Group(func(r chi.Router) {
-	// 	r.Use(AuthMiddleware)
-	// 	r.Get("/users/{id}")
-	// })
 
 	router.Get("/email", message.HandleEmails)
 
 	router.Route("/users", func(r chi.Router) {
+		// TODO
+		// r.Use(AuthMiddleware)
 		uc.SetupUserRoutes(r, api.database)
 	})
 
