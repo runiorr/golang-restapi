@@ -7,7 +7,7 @@ import (
 )
 
 func HandleSMS(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("welcome (using sms) " + r.Host))
+	w.Write([]byte("welcome - agai (using sms) " + r.Host))
 
 	smsSender := fact.SMSSenderFactory()
 	err_ := smsSender.Send("john@example.com", "Hello, John!")
