@@ -7,7 +7,6 @@ import (
 	ur "msg-app/src/api/repository/user"
 	us "msg-app/src/api/services/user"
 
-	"msg-app/src/db"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -17,7 +16,7 @@ type UserController struct {
 	service us.UserService
 }
 
-func SetupUserRoutes(router chi.Router, database db.IDatabase) {
+func SetupUserRoutes(router chi.Router) {
 	// userRepository := ur.NewUserRepository(database)
 	userRepository := ur.NewUserRepository()
 	userService := us.NewUserService(*userRepository)
