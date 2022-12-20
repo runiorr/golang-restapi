@@ -16,7 +16,6 @@ func MemoryProfiler() {
 		var lastAlloc uint64
 		for {
 			currentTime := time.Now().Format("01-02-2006 15:04:05")
-
 			var mem runtime.MemStats
 			var memUsage uint64
 			runtime.ReadMemStats(&mem)
