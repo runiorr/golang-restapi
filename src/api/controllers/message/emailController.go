@@ -2,7 +2,7 @@ package message
 
 import (
 	"fmt"
-	fact "msg-app/api/factory"
+	fact "msg-app/src/api/factory"
 	"net/http"
 )
 

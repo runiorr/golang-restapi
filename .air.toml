@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/main"
-  cmd = "go test ./api/... -coverprofile cover.out &&\
+  cmd = "go test ./src/... -coverprofile cover.out &&\
          go tool cover -html cover.out -o cover.html &&\
          rm cover.out &&\
          go build -o ./tmp/main ."
