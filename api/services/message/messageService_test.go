@@ -19,7 +19,7 @@ func (m *MockMessageService) Send(to, message string) error {
 	return m.err
 }
 
-func Test_MessageService(t *testing.T) {
+func TestMessageService(t *testing.T) {
 	tests := []struct {
 		name    string
 		service *MockMessageService

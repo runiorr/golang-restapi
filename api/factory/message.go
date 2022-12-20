@@ -1,18 +1,20 @@
 package message
 
 import (
-	impl "msg-app/api/impl/message"
+	email "msg-app/api/impl/message/email"
+	file "msg-app/api/impl/message/file"
+	sms "msg-app/api/impl/message/sms"
 	serv "msg-app/api/services/message"
 )
 
 func EmailSenderFactory() *serv.MessageService {
-	return serv.NewMessageService(&impl.EmailService{})
+	return serv.NewMessageService(&email.EmailService{})
 }
 
 func SMSSenderFactory() *serv.MessageService {
-	return serv.NewMessageService(&impl.SMService{})
+	return serv.NewMessageService(&sms.SMService{})
 }
 
 func FileSenderFactory() *serv.MessageService {
-	return serv.NewMessageService(&impl.FileService{})
+	return serv.NewMessageService(&file.FileService{})
 }
