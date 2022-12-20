@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -20,5 +21,9 @@ func main() {
 	r.Get("/email", message.HandleEmails)
 	r.Get("/sms", message.HandleSMS)
 
-	http.ListenAndServe(":3000", r)
+	fmt.Println("App listening at :8080")
+	err := http.ListenAndServe(":8080", r)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

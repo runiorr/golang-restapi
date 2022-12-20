@@ -2,43 +2,30 @@ package profiler
 
 import (
 	"fmt"
-	"os"
+	fact "msg-app/api/factory"
 	"runtime"
 	"time"
 )
 
 func MemoryProfiler() {
 	done := make(chan bool)
+	fileToWrite := "memoria.txt"
+	fileWriter := fact.FileSenderFactory()
 
 	go func() {
 		var lastAlloc uint64
 		for {
-
-			f, err := os.OpenFile("memoria.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			defer f.Close()
-
 			currentTime := time.Now().Format("01-02-2006 15:04:05")
 
 			var mem runtime.MemStats
-			runtime.ReadMemStats(&mem)
-
 			var memUsage uint64
+			runtime.ReadMemStats(&mem)
 			if lastAlloc > 0 {
 				memUsage = mem.Alloc - lastAlloc
 			}
 			lastAlloc = mem.Alloc
-
-			if _, err := f.WriteString(
-				fmt.Sprintf("datetime: %s, mem_used(bytes): %d\n",
-					currentTime, memUsage)); err != nil {
-				fmt.Println(err)
-				return
-			}
-
+			dataPoint := fmt.Sprintf("datetime: %s, mem_used(bytes): %d\n", currentTime, memUsage)
+			fileWriter.Send(fileToWrite, dataPoint)
 			done <- true
 		}
 	}()
