@@ -1,56 +1,49 @@
 package user
 
 import (
-	"msg-app/src/api/models"
+	m "msg-app/src/api/models"
 
-	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type UserRepository struct {
-	data map[string]models.User
+	db *gorm.DB
 }
 
-func NewUserRepository() *UserRepository {
-	return &UserRepository{data: make(map[string]models.User)}
+func NewUserRepository(db *gorm.DB) *UserRepository {
+	db.AutoMigrate(&m.User{})
+	return &UserRepository{db}
 }
 
-func (ur *UserRepository) CreateUser(inUser models.InUser) (models.OutUser, error) {
-	id := uuid.New().String()
-
-	user := models.User{
-		Id:        id,
+func (ur *UserRepository) CreateUser(inUser m.InUser) (m.OutUser, error) {
+	user := m.User{
 		FirstName: inUser.FirstName,
 		LastName:  inUser.LastName,
 		Email:     inUser.Email,
-		Password:  inUser.Password}
+		Password:  inUser.Password,
+	}
 
-	ur.data[id] = user
+	ur.db.Save(&user)
 
-	outUser := models.OutUser{
-		Id:        user.Id,
-		FirstName: user.FirstName,
-		Email:     user.Email,
+	outUser := m.OutUser{
+		FirstName: inUser.FirstName,
+		Email:     inUser.Email,
 	}
 
 	return outUser, nil
 }
 
-func (ur *UserRepository) GetUsers() []models.OutUser {
-	var outUsers []models.OutUser
+func (ur *UserRepository) GetUserById(id string) m.OutUser {
+	var user m.User
+	ur.db.Find(&user, "id = ?", id)
 
-	for _, user := range ur.data {
-		outUsers = append(outUsers, models.OutUser{
-			Id:        user.Id,
-			FirstName: user.FirstName,
-			Email:     user.Email,
-		})
+	outUser := m.OutUser{
+		Id:        id,
+		FirstName: user.FirstName,
+		Email:     user.Email,
 	}
 
-	return outUsers
-}
-
-// TODO
-func (ur *UserRepository) GetUserById() {
+	return outUser
 }
 
 // TODO

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"msg-app/src/api/models"
+	m "msg-app/src/api/models"
 	"msg-app/src/api/repository/user"
 )
 
@@ -13,16 +13,12 @@ func NewUserService(repository user.UserRepository) *UserService {
 	return &UserService{repository: repository}
 }
 
-func (us *UserService) CreateUser(inUser models.InUser) (models.OutUser, error) {
+func (us *UserService) CreateUser(inUser m.InUser) (m.OutUser, error) {
 	return us.repository.CreateUser(inUser)
 }
 
-func (us *UserService) GetUsers() []models.OutUser {
-	return us.repository.GetUsers()
-}
-
-// TODO
-func (us *UserService) GetUserById() {
+func (us *UserService) GetUserById(id string) m.OutUser {
+	return us.repository.GetUserById(id)
 }
 
 // TODO

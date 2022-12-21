@@ -10,20 +10,19 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"gorm.io/gorm"
 )
 
 type UserController struct {
 	service us.UserService
 }
 
-func SetupUserRoutes(router chi.Router) {
-	// userRepository := ur.NewUserRepository(database)
-	userRepository := ur.NewUserRepository()
+func SetupUserRoutes(router chi.Router, db *gorm.DB) {
+	userRepository := ur.NewUserRepository(db)
 	userService := us.NewUserService(*userRepository)
 	userControler := NewUserController(*userService)
 
 	router.Post("/", userControler.CreateUser)
-	router.Get("/", userControler.GetUsers)
 	router.Get("/{id}", userControler.GetUserById)
 	router.Put("/{id}", userControler.UpdateUserById)
 	router.Delete("/{id}", userControler.DeleteUser)
@@ -48,15 +47,13 @@ func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write(outUserJson)
 }
 
-func (uc *UserController) GetUsers(w http.ResponseWriter, r *http.Request) {
-	outUsers := uc.service.GetUsers()
-	outUsersJson, _ := json.Marshal(outUsers)
+func (uc *UserController) GetUserById(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	outUser := uc.service.GetUserById(id)
+	outUserJson, _ := json.Marshal(outUser)
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(outUsersJson)
-}
-
-func (uc *UserController) GetUserById(w http.ResponseWriter, r *http.Request) {
+	w.Write(outUserJson)
 }
 
 func (uc *UserController) UpdateUserById(w http.ResponseWriter, r *http.Request) {
