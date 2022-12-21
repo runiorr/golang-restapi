@@ -29,3 +29,6 @@ cover.html
 
 # Created by tests
 *_test.txt
+
+# db
+database/**.db
