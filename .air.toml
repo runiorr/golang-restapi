@@ -10,7 +10,7 @@ tmp_dir = "tmp"
          rm cover.out &&\
          go build -o ./tmp/main ."
   delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor", "testdata", "bin", "profiler", "deployments"]
+  exclude_dir = ["assets", "tmp", "vendor", "testdata", "bin", "profiler", "deployments", "database"]
   exclude_file = ["cover.html"]
   exclude_regex = []
   exclude_unchanged = false
