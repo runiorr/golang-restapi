@@ -35,7 +35,7 @@ func (ur *UserRepository) CreateUser(inUser m.InUser) (m.OutUser, error) {
 
 func (ur *UserRepository) GetUserById(id string) m.OutUser {
 	var user m.User
-	ur.db.Find(&user, "id = ?", id)
+	ur.db.First(&user, "id = ?", id)
 
 	outUser := m.OutUser{
 		Id:        id,
