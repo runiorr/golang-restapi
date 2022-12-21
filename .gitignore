@@ -31,4 +31,4 @@ cover.html
 *_test.txt
 
 # db
-database/**.db
+database/test.db
