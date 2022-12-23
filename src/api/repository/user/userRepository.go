@@ -15,41 +15,31 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db}
 }
 
-func (ur *UserRepository) CreateUser(inUser m.InUser) (m.OutUser, error) {
+func (ur *UserRepository) CreateUser(inUser m.InUser) error {
 	user := m.User{
 		FirstName: inUser.FirstName,
 		LastName:  inUser.LastName,
 		Email:     inUser.Email,
 		Password:  inUser.Password,
 	}
-
-	ur.db.Save(&user)
-
-	outUser := m.OutUser{
-		FirstName: inUser.FirstName,
-		Email:     inUser.Email,
-	}
-
-	return outUser, nil
+	ctx := ur.db.Save(&user)
+	err := ctx.Error
+	return err
 }
 
-func (ur *UserRepository) GetUserById(id string) m.OutUser {
+func (ur *UserRepository) GetUserByEmail(email string) (*m.User, error) {
 	var user m.User
-	ur.db.First(&user, "id = ?", id)
-
-	outUser := m.OutUser{
-		Id:        id,
-		FirstName: user.FirstName,
-		Email:     user.Email,
-	}
-
-	return outUser
+	ctx := ur.db.First(&user, "email = ?", email)
+	err := ctx.Error
+	return &user, err
 }
 
-// TODO
-func (ur *UserRepository) UpdateUserById() {
+// Todo
+func (ur *UserRepository) UpdateUserById(id string) string {
+	return "2"
 }
 
-// TODO
-func (ur *UserRepository) DeleteUser() {
+// Todo
+func (ur *UserRepository) DeleteUserById(id string) string {
+	return "2"
 }

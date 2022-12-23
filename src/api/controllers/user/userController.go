@@ -17,47 +17,61 @@ type UserController struct {
 	service us.UserService
 }
 
-func SetupUserRoutes(router chi.Router, db *gorm.DB) {
-	userRepository := ur.NewUserRepository(db)
-	userService := us.NewUserService(*userRepository)
-	userControler := NewUserController(*userService)
-
-	router.Post("/", userControler.CreateUser)
-	router.Get("/{id}", userControler.GetUserById)
-	router.Put("/{id}", userControler.UpdateUserById)
-	router.Delete("/{id}", userControler.DeleteUser)
-}
-
-func NewUserController(service us.UserService) *UserController {
+func newUserController(service us.UserService) *UserController {
 	return &UserController{service: service}
 }
 
+func SetupUserController(router chi.Router, db *gorm.DB) {
+	userRepository := ur.NewUserRepository(db)
+	userService := us.NewUserService(*userRepository)
+	userControler := newUserController(*userService)
+
+	router.Post("/", userControler.CreateUser)
+	router.Get("/", userControler.GetUserByEmail)
+	router.Put("/{id}", userControler.UpdateUserById)
+	router.Delete("/{id}", userControler.DeleteUserById)
+}
+
 func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
+	w.Header().Set("Content-Type", "application/json")
 
 	var inUser um.InUser
-	err := decoder.Decode(&inUser)
+	err := json.NewDecoder(r.Body).Decode(&inUser)
 	if err != nil {
 		fmt.Println(err)
 	}
-	outUser, _ := uc.service.CreateUser(inUser)
-	outUserJson, _ := json.Marshal(outUser)
 
+	if err := uc.service.CreateUser(inUser); err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.Write([]byte("'message':'User created.'"))
+}
+
+func (uc *UserController) GetUserByEmail(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+
+	var inUser um.InUser
+	err := json.NewDecoder(r.Body).Decode(&inUser)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	outUser, err := uc.service.GetUserByEmail(inUser.Email)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	outUserJson, _ := json.Marshal(outUser)
 	w.Write(outUserJson)
 }
 
-func (uc *UserController) GetUserById(w http.ResponseWriter, r *http.Request) {
-	id := chi.URLParam(r, "id")
-	outUser := uc.service.GetUserById(id)
-	outUserJson, _ := json.Marshal(outUser)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(outUserJson)
-}
-
+// Todo
 func (uc *UserController) UpdateUserById(w http.ResponseWriter, r *http.Request) {
 }
 
-func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+// Todo
+func (uc *UserController) DeleteUserById(w http.ResponseWriter, r *http.Request) {
 }

@@ -33,7 +33,7 @@ func (api *API) SetupRouter() {
 	api.router.Route("/users", func(r chi.Router) {
 		// TODO
 		// r.Use(AuthMiddleware)
-		uc.SetupUserRoutes(r, api.db)
+		uc.SetupUserController(r, api.db)
 	})
 
 }
