@@ -1,10 +1,10 @@
 package models
 
 type InUser struct {
-	FirstName string `json:"firstname" bson:"firstname"`
-	LastName  string `json:"lastname" bson:"lastname"`
-	Email     string `json:"email" bson:"email"`
-	Password  string `json:"password" bson:"password"`
+	FirstName string `json:"firstname,omitempty" bson:"firstname, omitempty"`
+	LastName  string `json:"lastname,omitempty" bson:"lastname, omitempty"`
+	Email     string `json:"email,omitempty" bson:"email, omitempty"`
+	Password  string `json:"password,omitempty" bson:"password, omitempty"`
 }
 
 type User struct {

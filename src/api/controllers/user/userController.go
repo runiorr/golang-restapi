@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	um "msg-app/src/api/models"
 	ur "msg-app/src/api/repository/user"
 	us "msg-app/src/api/services/user"
@@ -38,7 +37,8 @@ func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var inUser um.InUser
 	err := json.NewDecoder(r.Body).Decode(&inUser)
 	if err != nil {
-		fmt.Println(err)
+		w.Write([]byte(err.Error()))
+		return
 	}
 
 	if err := uc.service.CreateUser(inUser); err != nil {
@@ -55,7 +55,8 @@ func (uc *UserController) GetUserByEmail(w http.ResponseWriter, r *http.Request)
 	var inUser um.InUser
 	err := json.NewDecoder(r.Body).Decode(&inUser)
 	if err != nil {
-		fmt.Println(err)
+		w.Write([]byte(err.Error()))
+		return
 	}
 
 	outUser, err := uc.service.GetUserByEmail(inUser.Email)
