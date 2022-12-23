@@ -15,9 +15,11 @@ func SetupUsers(router chi.Router, db *gorm.DB) {
 	userControler := uc.NewUserController(*userService)
 
 	// TODO
-	// router.Use(AuthMiddleware)
+	// router.Use(AuthUser)
 
-	router.Post("/", userControler.CreateUser)
+	router.Post("/register", userControler.Register)
+	router.Post("/login", userControler.Login)
+
 	router.Get("/", userControler.GetUserByEmail)
 
 	router.Route("/{id}", func(r chi.Router) {

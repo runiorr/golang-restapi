@@ -4,6 +4,8 @@ import (
 	"fmt"
 	m "msg-app/internal/core/users/model"
 	user "msg-app/internal/core/users/repository"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
@@ -14,11 +16,24 @@ func NewUserService(repository user.UserRepository) *UserService {
 	return &UserService{repository: repository}
 }
 
-func (us *UserService) CreateUser(inUser m.InUser) error {
-	if err := us.repository.CreateUser(inUser); err != nil {
+func (us *UserService) Register(registerUser m.RegisterUser) error {
+	if err := us.repository.Register(registerUser); err != nil {
 		return &InternalError{err}
 	}
 	return nil
+}
+
+func (us *UserService) Login(loginUser m.LoginUser) bool {
+	dbUser, err := us.repository.GetUserByEmail(loginUser.Email)
+	if err != nil {
+		return false
+	}
+
+	userPass := []byte(loginUser.Password)
+	dbPass := []byte(dbUser.Password)
+	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
+
+	return passErr == nil
 }
 
 func (us *UserService) GetUserByEmail(email string) (*m.OutUser, error) {

@@ -14,12 +14,12 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db}
 }
 
-func (ur *UserRepository) CreateUser(inUser m.InUser) error {
+func (ur *UserRepository) Register(registerUser m.RegisterUser) error {
 	user := m.User{
-		FirstName: inUser.FirstName,
-		LastName:  inUser.LastName,
-		Email:     inUser.Email,
-		Password:  inUser.Password,
+		FirstName: registerUser.FirstName,
+		LastName:  registerUser.LastName,
+		Email:     registerUser.Email,
+		Password:  registerUser.Password,
 	}
 	ctx := ur.db.Save(&user)
 	err := ctx.Error

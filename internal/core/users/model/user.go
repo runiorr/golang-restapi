@@ -1,10 +1,21 @@
 package model
 
-type InUser struct {
+type RegisterUser struct {
 	FirstName string `json:"firstname,omitempty" bson:"firstname, omitempty"`
 	LastName  string `json:"lastname,omitempty" bson:"lastname, omitempty"`
 	Email     string `json:"email,omitempty" bson:"email, omitempty"`
 	Password  string `json:"password,omitempty" bson:"password, omitempty"`
+}
+
+type LoginUser struct {
+	Email    string `json:"email,omitempty" bson:"email, omitempty"`
+	Password string `json:"password,omitempty" bson:"password, omitempty"`
+}
+
+type InUser struct {
+	FirstName string `json:"firstname,omitempty" bson:"firstname, omitempty"`
+	LastName  string `json:"lastname,omitempty" bson:"lastname, omitempty"`
+	Email     string `json:"email,omitempty" bson:"email, omitempty"`
 }
 
 type User struct {
