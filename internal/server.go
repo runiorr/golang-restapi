@@ -24,10 +24,6 @@ func NewAPI(db *gorm.DB) *API {
 func (api *API) SetupRouter() {
 	api.router.Use(middleware.Logger)
 
-	// TODO
-	// api.router.Post("/login", login)
-	// api.router.Post("/signup", login)
-
 	api.router.Get("/email", messages.HandleEmails)
 
 	api.router.Group(func(router chi.Router) {
