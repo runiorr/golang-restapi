@@ -6,5 +6,5 @@ type InternalError struct {
 
 func (i *InternalError) Error() string {
 	// return fmt.Sprintf("'Status': '500', 'Error': '%v'", i.Err)
-	return "'Status': '500'"
+	return `{"Status": "500"}`
 }
