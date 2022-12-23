@@ -5,12 +5,12 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/main"
-  cmd = "go test ./src/... -coverprofile cover.out &&\
+  cmd = "go test ./internal/... -coverprofile cover.out &&\
          go tool cover -html cover.out -o cover.html &&\
          rm cover.out &&\
-         go build -o ./tmp/main ."
+         go build -o ./tmp/main cmd/server/main.go"
   delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor", "testdata", "bin", "profiler", "deployments", "database"]
+  exclude_dir = ["api", "bin", "database", "deployments", "tmp", "profiler"]
   exclude_file = ["cover.html"]
   exclude_regex = []
   exclude_unchanged = false
