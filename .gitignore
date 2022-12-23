@@ -32,3 +32,6 @@ cover.html
 
 # db
 database/test.db
+
+# Built app
+bin/*
