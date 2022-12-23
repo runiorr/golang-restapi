@@ -16,6 +16,12 @@ func NewUserController(service us.UserService) *UserController {
 	return &UserController{service: service}
 }
 
+func (uc *UserController) Profile(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	w.Write([]byte(`{"message":"Welcome user!"}`))
+}
+
 func (uc *UserController) GetUserByEmail(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

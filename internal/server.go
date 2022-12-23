@@ -24,14 +24,10 @@ func NewAPI(db *gorm.DB) *API {
 func (api *API) SetupRouter() {
 	api.router.Use(middleware.Logger)
 
+	// Email test route
 	api.router.Get("/email", messages.HandleEmails)
 
-	api.router.Group(func(router chi.Router) {
-		router.Route("/users", func(r chi.Router) {
-			users.SetupUsers(r, api.db)
-		})
-	})
-
+	users.SetupUsers(api.router, api.db)
 }
 
 func (api *API) GetRouter() *chi.Mux {

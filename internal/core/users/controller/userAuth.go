@@ -2,17 +2,12 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
+	"time"
 
+	internal_jwt "msg-app/internal/auth/jwt"
 	um "msg-app/internal/core/users/model"
-
-	"github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
 )
-
-// TODO NEW PASS
-var SECRET_KEY = []byte("gosecretkey")
 
 func (uc *UserController) Register(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -24,7 +19,7 @@ func (uc *UserController) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	registerUser.Password = getHash([]byte(registerUser.Password))
+	registerUser.Password = internal_jwt.GetHash([]byte(registerUser.Password))
 
 	if err := uc.service.Register(registerUser); err != nil {
 		w.Write([]byte(err.Error()))
@@ -50,29 +45,31 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jwtToken, err := generateJWT()
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"message":"` + err.Error() + `"}`))
-		return
-	}
-	w.Write([]byte(`{"token":"` + jwtToken + `"}`))
+	jwtToken := internal_jwt.GenerateJWT(loginUser.Email)
+
+	http.SetCookie(w, &http.Cookie{
+		HttpOnly: true,
+		Expires:  time.Now().Add(30 * time.Second),
+		SameSite: http.SameSiteLaxMode,
+		// Uncomment below for HTTPS:
+		// Secure: true,
+		Name:  "jwt", // Must be named "jwt" or else the token cannot be searched for by jwtauth.Verifier.
+		Value: jwtToken,
+	})
+
+	http.Redirect(w, r, "/users/profile", http.StatusSeeOther)
 }
 
-func getHash(pwd []byte) string {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
-	if err != nil {
-		log.Println(err)
-	}
-	return string(hash)
-}
+func (uc *UserController) Logout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		HttpOnly: true,
+		MaxAge:   -1, // Delete the cookie.
+		SameSite: http.SameSiteLaxMode,
+		// Uncomment below for HTTPS:
+		// Secure: true,
+		Name:  "jwt",
+		Value: "",
+	})
 
-func generateJWT() (string, error) {
-	token := jwt.New(jwt.SigningMethodHS256)
-	tokenString, err := token.SignedString(SECRET_KEY)
-	if err != nil {
-		log.Println("Error in JWT token generation")
-		return "", err
-	}
-	return tokenString, nil
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
