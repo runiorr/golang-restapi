@@ -2,7 +2,7 @@ package profiler
 
 import (
 	"fmt"
-	fact "msg-app/src/api/factory"
+	fact "msg-app/internal/core/messages/factory"
 	"runtime"
 	"time"
 )
