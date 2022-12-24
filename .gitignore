@@ -20,20 +20,14 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Profiling
-memoria.txt
-
 # Air builds
 tmp
 cover.html
 
-# Created by tests
-*_test.txt
-
 # SQLite DB
 database/test.db
 
-# Built app
+# server binary
 bin/*
 
 # Vagrant folder
