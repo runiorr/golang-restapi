@@ -30,8 +30,11 @@ cover.html
 # Created by tests
 *_test.txt
 
-# db
+# SQLite DB
 database/test.db
 
 # Built app
 bin/*
+
+# Vagrant folder
+deploy/.vagrant

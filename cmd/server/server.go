@@ -5,17 +5,17 @@ import (
 	// "io/ioutil"
 	"net/http"
 
-	API "msg-app/internal"
-	"msg-app/profiler"
+	API "msg-app/src"
+	// "msg-app/profiler"
 
-	um "msg-app/internal/core/users/model"
+	um "msg-app/src/core/users/model"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
-	go profiler.MemoryProfiler()
+	// go profiler.MemoryProfiler()
 
 	db, err := gorm.Open(sqlite.Open("database/test.db"), &gorm.Config{})
 	if err != nil {
@@ -32,6 +32,8 @@ func main() {
 		fmt.Println(err)
 	}
 }
+
+// TODO: MAKE CONFIG
 
 // // Load configuration from config/config.yaml which contains details such as DB connection params
 // cfg, err := config.Load(ctx)
