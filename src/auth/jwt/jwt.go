@@ -24,7 +24,7 @@ func GetHash(pwd []byte) string {
 	return string(hash)
 }
 
-func GenerateJWT(email string) string {
-	_, tokenString, _ := TokenAuth.Encode(map[string]interface{}{"email": email})
+func GenerateJWT(key, value string) string {
+	_, tokenString, _ := TokenAuth.Encode(map[string]interface{}{key: value})
 	return tokenString
 }

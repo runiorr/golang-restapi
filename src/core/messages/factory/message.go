@@ -1,8 +1,8 @@
 package message
 
 import (
-	message "msg-app/internal/core/messages/impl"
-	serv "msg-app/internal/core/messages/service"
+	message "msg-app/src/core/messages/impl"
+	serv "msg-app/src/core/messages/service"
 )
 
 func EmailSenderFactory() *serv.MessageService {

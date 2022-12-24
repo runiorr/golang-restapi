@@ -2,17 +2,17 @@ package controller
 
 import (
 	"encoding/json"
-	um "msg-app/internal/core/users/model"
-	us "msg-app/internal/core/users/service"
+	um "msg-app/src/core/users/model"
+	us "msg-app/src/core/users/service"
 
 	"net/http"
 )
 
 type UserController struct {
-	service us.UserService
+	service us.IUserService
 }
 
-func NewUserController(service us.UserService) *UserController {
+func NewUserController(service us.IUserService) *UserController {
 	return &UserController{service: service}
 }
 

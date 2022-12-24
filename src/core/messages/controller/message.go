@@ -2,7 +2,7 @@ package controller
 
 import (
 	"fmt"
-	fact "msg-app/internal/core/messages/factory"
+	fact "msg-app/src/core/messages/factory"
 	"net/http"
 )
 

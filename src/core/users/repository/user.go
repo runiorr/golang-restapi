@@ -1,7 +1,8 @@
 package repository
 
 import (
-	m "msg-app/internal/core/users/model"
+	"errors"
+	m "msg-app/src/core/users/model"
 
 	"gorm.io/gorm"
 )
@@ -34,11 +35,11 @@ func (ur *UserRepository) GetUserByEmail(email string) (*m.User, error) {
 }
 
 // Todo
-func (ur *UserRepository) UpdateUserById(id string) string {
-	return "2"
+func (ur *UserRepository) UpdateUserById(id string) error {
+	return errors.New("A")
 }
 
 // Todo
-func (ur *UserRepository) DeleteUserById(id string) string {
-	return "2"
+func (ur *UserRepository) DeleteUserById(id string) error {
+	return errors.New("A")
 }

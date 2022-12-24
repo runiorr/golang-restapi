@@ -1,9 +1,9 @@
 package api
 
 import (
-	messages "msg-app/internal/core/messages/controller"
+	messages "msg-app/src/core/messages/controller"
 
-	users "msg-app/internal/core/users"
+	users "msg-app/src/core/users"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	internal_jwt "msg-app/internal/auth/jwt"
-	um "msg-app/internal/core/users/model"
+	auth_jwt "msg-app/src/auth/jwt"
+	um "msg-app/src/core/users/model"
 )
 
 func (uc *UserController) Register(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +19,7 @@ func (uc *UserController) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	registerUser.Password = internal_jwt.GetHash([]byte(registerUser.Password))
+	registerUser.Password = auth_jwt.GetHash([]byte(registerUser.Password))
 
 	if err := uc.service.Register(registerUser); err != nil {
 		w.Write([]byte(err.Error()))
@@ -45,7 +45,7 @@ func (uc *UserController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jwtToken := internal_jwt.GenerateJWT(loginUser.Email)
+	jwtToken := auth_jwt.GenerateJWT("email", loginUser.Email)
 
 	http.SetCookie(w, &http.Cookie{
 		HttpOnly: true,

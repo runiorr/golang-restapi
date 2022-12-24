@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/jwtauth"
@@ -9,7 +10,13 @@ import (
 
 func LoggedInRedirector(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token, _, _ := jwtauth.FromContext(r.Context())
+		token, claims, _ := jwtauth.FromContext(r.Context())
+
+		if claims["email"] != nil {
+			fmt.Println(claims["email"])
+		}
+
+		fmt.Println(token)
 
 		if token != nil && jwt.Validate(token) == nil {
 			http.Redirect(w, r, "/users/profile", 302)

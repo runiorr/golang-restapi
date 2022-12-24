@@ -2,17 +2,17 @@ package service
 
 import (
 	"fmt"
-	m "msg-app/internal/core/users/model"
-	user "msg-app/internal/core/users/repository"
+	m "msg-app/src/core/users/model"
+	user "msg-app/src/core/users/repository"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService struct {
-	repository user.UserRepository
+	repository user.IUserRepository
 }
 
-func NewUserService(repository user.UserRepository) *UserService {
+func NewUserService(repository user.IUserRepository) *UserService {
 	return &UserService{repository: repository}
 }
 
@@ -52,11 +52,11 @@ func (us *UserService) GetUserByEmail(email string) (*m.OutUser, error) {
 }
 
 // Todo
-func (us *UserService) UpdateUserById(id string) string {
+func (us *UserService) UpdateUserById(id string) error {
 	return us.repository.UpdateUserById(id)
 }
 
 // Todo
-func (us *UserService) DeleteUserById(id string) string {
+func (us *UserService) DeleteUserById(id string) error {
 	return us.repository.DeleteUserById(id)
 }
