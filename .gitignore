@@ -33,3 +33,5 @@ bin/*
 
 # Vagrant folder
 deploy/.vagrant
+
+*.txt
