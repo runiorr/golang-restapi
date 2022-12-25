@@ -26,6 +26,7 @@ cover.html
 
 # SQLite DB
 test.db
+*.sql
 
 # server binary
 bin/*
