@@ -1,5 +1,3 @@
-http:
-  port: "3000"
 database:
   type: "postgresql"
   url: "postgresql://guest:guest@postgres:5432/goapi?sslmode=disable"

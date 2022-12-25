@@ -1,7 +1,10 @@
 package api
 
 import (
+	"fmt"
 	messages "msg-app/src/core/messages/controller"
+	"net/http"
+	"os"
 
 	users "msg-app/src/core/users"
 
@@ -30,6 +33,15 @@ func (api *API) SetupRouter() {
 	users.SetupUsers(api.router, api.db)
 }
 
-func (api *API) GetRouter() *chi.Mux {
-	return api.router
+func (api *API) Start() {
+	port, found := os.LookupEnv("PORT")
+	if !found {
+		port = ":8080"
+	}
+
+	fmt.Printf("App listening at port %s\n", port)
+
+	if err := http.ListenAndServe(port, api.router); err != nil {
+		fmt.Println(err)
+	}
 }

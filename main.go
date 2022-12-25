@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-
 	API "msg-app/src"
 
 	"msg-app/src/config"
@@ -19,11 +16,5 @@ func main() {
 	db.AutoMigrate(&um.User{})
 
 	api := API.NewAPI(db)
-	router := api.GetRouter()
-
-	port := fmt.Sprintf(":%s", conf.Http["port"])
-	fmt.Printf("App listening at port %s using %s\n", port, conf.Database["type"])
-	if err := http.ListenAndServe(port, router); err != nil {
-		fmt.Println(err)
-	}
+	api.Start()
 }
