@@ -25,7 +25,7 @@ tmp
 cover.html
 
 # SQLite DB
-database/test.db
+test.db
 
 # server binary
 bin/*

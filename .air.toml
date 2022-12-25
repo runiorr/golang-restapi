@@ -8,9 +8,9 @@ tmp_dir = "tmp"
   cmd = "go test ./src/... -coverprofile cover.out &&\
          go tool cover -html cover.out -o cover.html &&\
          rm cover.out &&\
-         go build -o ./tmp/main cmd/server/server.go"
+         go build -o ./tmp/main ./main.go"
   delay = 1000
-  exclude_dir = ["api", "bin", "database", "deployments", "tmp", "profiler"]
+  exclude_dir = ["api", "bin", "database", "deploy", "tmp"]
   exclude_file = ["cover.html"]
   exclude_regex = []
   exclude_unchanged = false
