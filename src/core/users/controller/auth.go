@@ -19,8 +19,6 @@ func (uc *UserController) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	registerUser.Password = auth_jwt.GetHash([]byte(registerUser.Password))
-
 	if err := uc.service.Register(registerUser); err != nil {
 		w.Write([]byte(err.Error()))
 		return
