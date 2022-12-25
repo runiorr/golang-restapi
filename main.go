@@ -15,11 +15,7 @@ func main() {
 	var conf config.Conf
 	conf.GetConf()
 
-	fmt.Println(conf.Http)
-	fmt.Println(conf.Database)
-
 	db := database.GetDB(conf.Database)
-
 	db.AutoMigrate(&um.User{})
 
 	api := API.NewAPI(db)
