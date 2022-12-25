@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"errors"
 	m "msg-app/src/core/users/model"
 
 	"gorm.io/gorm"
@@ -22,7 +21,7 @@ func (ur *UserRepository) Register(registerUser m.RegisterUser) error {
 		Email:     registerUser.Email,
 		Password:  registerUser.Password,
 	}
-	ctx := ur.db.Save(&user)
+	ctx := ur.db.Create(&user)
 	err := ctx.Error
 	return err
 }
@@ -35,11 +34,25 @@ func (ur *UserRepository) GetUserByEmail(email string) (*m.User, error) {
 }
 
 // Todo
-func (ur *UserRepository) UpdateUserById(id string) error {
-	return errors.New("A")
-}
+// func (ur *UserRepository) UpdateUserById(id string) error {
+// 	user = User{1, "old name"}
+// 	user2 = User{2, "old name"}
 
-// Todo
+// 	//fist way
+// 	db.First(&user)
+// 	user.Name = "new name"
+// 	db.Save(&user)
+
+// 	//second way
+// 	user2.Name = "new name"
+// 	db.Model(&user2).Updates(&user2)
+// 	return errors.New("A")
+// }
+
 func (ur *UserRepository) DeleteUserById(id string) error {
-	return errors.New("A")
+	ctx := ur.db.Delete(&m.User{}, "id = ?", id)
+	if err := ctx.Error; err != nil {
+		return err
+	}
+	return nil
 }
