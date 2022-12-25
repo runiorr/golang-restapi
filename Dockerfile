@@ -15,7 +15,9 @@ RUN GO111MODULE=on CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GOPROXY=https://goproxy
     go build -ldflags="-extldflags=-static" -tags sqlite_omit_load_extension -o ./main ./main.go
 
 # Build the server image
-FROM gcr.io/distroless/base
+
+# gcr.io/distroless/base
+FROM gcr.io/distroless/static-debian11
 
 WORKDIR /root/
 
