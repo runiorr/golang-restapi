@@ -6,6 +6,6 @@ type IUserService interface {
 	Register(m.RegisterUser) error
 	Login(m.LoginUser) bool
 	GetUserByEmail(string) (*m.OutUser, error)
-	UpdateUserById(string) error
-	DeleteUserById(string) error
+	// UpdateUserById(string) error
+	// DeleteUserById(string) error
 }

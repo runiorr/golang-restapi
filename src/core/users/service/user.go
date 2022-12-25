@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	auth_jwt "msg-app/src/auth/jwt"
 	m "msg-app/src/core/users/model"
 	user "msg-app/src/core/users/repository"
 
@@ -17,6 +18,8 @@ func NewUserService(repository user.IUserRepository) *UserService {
 }
 
 func (us *UserService) Register(registerUser m.RegisterUser) error {
+	registerUser.Password = auth_jwt.GetHash([]byte(registerUser.Password))
+
 	if err := us.repository.Register(registerUser); err != nil {
 		return &InternalError{err}
 	}
@@ -52,11 +55,11 @@ func (us *UserService) GetUserByEmail(email string) (*m.OutUser, error) {
 }
 
 // Todo
-func (us *UserService) UpdateUserById(id string) error {
-	return us.repository.UpdateUserById(id)
-}
+// func (us *UserService) UpdateUserById(id string) error {
+// 	return us.repository.UpdateUserById(id)
+// }
 
 // Todo
-func (us *UserService) DeleteUserById(id string) error {
-	return us.repository.DeleteUserById(id)
-}
+// func (us *UserService) DeleteUserById(id string) error {
+// 	return us.repository.DeleteUserById(id)
+// }
