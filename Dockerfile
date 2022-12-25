@@ -2,17 +2,20 @@
 
 FROM golang:1.18-alpine AS build
 
-WORKDIR /
-
 RUN apk update 
-RUN apk add --no-cache gcc g++ git openssh-client
+RUN apk add --no-cache gcc g++ git
 
-COPY . .
+WORKDIR /app
+
+COPY go.mod .
+COPY go.sum .
 
 RUN go mod download
 
+COPY . .
+
 RUN GO111MODULE=on CGO_ENABLED=1 GOOS=linux GOARCH=amd64 GOPROXY=https://goproxy.cn,direct \
-    go build -ldflags="-extldflags=-static" -tags sqlite_omit_load_extension -o ./main ./main.go
+    go build -ldflags="-extldflags=-static" -o ./main ./main.go
 
 # Build the server image
 
@@ -21,7 +24,7 @@ FROM gcr.io/distroless/static-debian11
 
 WORKDIR /root/
 
-COPY --from=build /main .
-COPY --from=build ./config ./config
+COPY --from=build /app/config ./config
+COPY --from=build /app/main .
 
 CMD ["./main"]
