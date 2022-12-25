@@ -1,5 +1,11 @@
 package model
 
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
+
 type RegisterUser struct {
 	FirstName string `json:"firstname,omitempty" bson:"firstname, omitempty"`
 	LastName  string `json:"lastname,omitempty" bson:"lastname, omitempty"`
@@ -19,11 +25,14 @@ type InUser struct {
 }
 
 type User struct {
-	ID        int64 `gorm:"primary_key;auto_increment;not_null"`
+	ID        string `gorm:"primary_key;auto_increment;not_null"`
 	FirstName string
 	LastName  string
 	Email     string `gorm:"unique"`
 	Password  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 type OutUser struct {
@@ -31,3 +40,12 @@ type OutUser struct {
 	FirstName string `json:"firstname" bson:"firstname"`
 	Email     string `json:"email" bson:"email"`
 }
+
+// TODO: Add hooks
+
+// func (u *User) BeforeDelete(tx *gorm.DB) (err error) {
+// 	if u.Role == "admin" {
+// 	  return errors.New("admin user not allowed to delete")
+// 	}
+// 	return
+//   }
