@@ -30,15 +30,17 @@ func (r *MockRepository) GetUserByEmail(email string) (*m.User, error) {
 // 	return r.deleteUserByIdFn(id)
 // }
 
-func TestService(t *testing.T) {
-	mockedUsers := map[int]*m.User{1: {
-		ID:        1,
-		FirstName: "",
-		LastName:  "",
-		Email:     "",
-		Password:  ""}}
+func TestUserService(t *testing.T) {
+	mockedUsers := map[int]*m.User{
+		1: {ID: 1,
+			FirstName: "",
+			LastName:  "",
+			Email:     "",
+			Password:  "",
+		}}
 
-	mockRepo := &MockRepository{
+	// Mocking repository methods
+	mockRepository := &MockRepository{
 		registerFn: func(registerUser m.RegisterUser) error {
 			if registerUser.FirstName == "" ||
 				registerUser.LastName == "" ||
@@ -75,7 +77,7 @@ func TestService(t *testing.T) {
 		},
 	}
 
-	service := NewUserService(mockRepo)
+	service := NewUserService(mockRepository)
 
 	mockedUser := m.RegisterUser{
 		FirstName: "name",
