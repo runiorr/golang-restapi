@@ -50,9 +50,7 @@ func (ur *UserRepository) GetUserByEmail(email string) (*m.User, error) {
 // }
 
 func (ur *UserRepository) DeleteUserById(id string) error {
-	ctx := ur.db.Delete(&m.User{}, "id = ?", id)
-	if err := ctx.Error; err != nil {
-		return err
-	}
-	return nil
+	ctx := ur.db.Delete(&m.User{}, id)
+	err := ctx.Error
+	return err
 }

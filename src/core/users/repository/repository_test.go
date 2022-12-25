@@ -35,30 +35,37 @@ func TestUserRepository(t *testing.T) {
 	}
 
 	t.Run("Should register user", func(t *testing.T) {
+		tx.SavePoint("register")
+
 		if err := repository.Register(mockUser); err != nil {
 			t.Errorf("Have error = %v, Wanted error = nil", err)
 		}
+
+		tx.RollbackTo("register")
 	})
 
 	t.Run("Should get user by email", func(t *testing.T) {
+		tx.SavePoint("getUserByEmail")
+		repository.Register(mockUser)
+
 		_, err := repository.GetUserByEmail(mockUser.Email)
 		if err != nil {
 			t.Errorf("Have error = %v, Wanted error = nil", err)
 		}
+		tx.RollbackTo("getUserByEmail")
 	})
 
 	t.Run("Should delete user by id", func(t *testing.T) {
+		tx.SavePoint("deleteUserById")
+		repository.Register(mockUser)
+
 		user, _ := repository.GetUserByEmail(mockUser.Email)
 		id := strconv.FormatInt(user.ID, 10)
 		if err := repository.DeleteUserById(id); err != nil {
 			t.Errorf("Have error = %v, Wanted error = nil", err)
 		}
-		userDeleted, _ := repository.GetUserByEmail(mockUser.Email)
-		if userDeleted.Email == mockUser.Email {
-			t.Errorf("Have user = %v, Wanted user = nil", userDeleted)
 
-		}
-
+		tx.RollbackTo("deleteUserById")
 	})
 
 	// Rollbacking to start and undoing all changes ocurred in tests
