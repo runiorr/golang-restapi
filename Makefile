@@ -2,6 +2,8 @@ EXEC = main
 
 BIN_PATH = ./bin
 BIN_FILES := $(shell ls $(BIN_PATH) | wc -l)
+EMPTY_BIN := "Bin folder is empty. Build first."
+CHECK_BIN := if [ $(BIN_FILES) = 0 ]; then echo $(EMPTY_BIN)
 
 GOOS := $(shell uname | tr [:upper:] [:lower:])
 GOARCH := $(shell dpkg --print-architecture | tr [:upper:] [:lower:])
@@ -20,13 +22,13 @@ build:
 	GOARCH=$(GOARCH) GOOS=$(GOOS) go build -o $(BIN_PATH)/$(EXEC) $(EXEC).go
 
 clean:
-	@if [ $(BIN_FILES) = 0 ]; then echo "Bin folder is empty"; \
-	else go clean && rm $(BIN_PATH)/* ;\
+	@$(CHECK_BIN); \
+	else go clean && rm $(BIN_PATH)/*; \
 	fi
 
 run:
-	@if [ $(BIN_FILES) = 0 ]; then echo "Bin folder is empty. Build first."; \
-	else ${BIN_PATH}/$(EXEC) ;\
+	@$(CHECK_BIN); \
+	else ${BIN_PATH}/$(EXEC); \
 	fi
 
 containers-build:
