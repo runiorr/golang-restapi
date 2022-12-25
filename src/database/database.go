@@ -10,7 +10,7 @@ func GetDB(dbConf map[string]string) *gorm.DB {
 	if dbConf["type"] == "sqlite" {
 		db, err := gorm.Open(sqlite.Open(dbConf["url"]), &gorm.Config{})
 		if err != nil {
-			panic("failed to connect database")
+			panic("failed to connect to sqlite")
 		}
 		return db
 	}
@@ -18,10 +18,10 @@ func GetDB(dbConf map[string]string) *gorm.DB {
 	if dbConf["type"] == "postgresql" {
 		db, err := gorm.Open(postgres.Open(dbConf["url"]), &gorm.Config{})
 		if err != nil {
-			panic("failed to connect database")
+			panic("failed to connect to postgres")
 		}
 		return db
 	}
 
-	panic("No database specified")
+	panic("no database specified")
 }

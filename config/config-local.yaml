@@ -2,4 +2,4 @@ http:
   port: "8080"
 database:
   type: "sqlite"
-  url: "database/test.db"
+  url: "test.db"

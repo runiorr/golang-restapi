@@ -19,6 +19,8 @@ cover:
 build:
 	GOARCH=$(GOARCH) GOOS=$(GOOS) go build -o $(BIN_PATH)/$(EXEC) $(EXEC).go
 
+docker:
+	docker-compose up
 
 clean:
 	@if [ $(BIN_FILES) = 0 ]; then echo "Bin folder is empty"; \

@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	localConfigPath = "config/config.yaml"
-	envConfigPath   = "config/config-docker.yaml"
+	localConfigPath = "./config/config-local.yaml"
+	envConfigPath   = "./config/config-docker.yaml"
 )
 
 type Conf struct {
