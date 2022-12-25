@@ -29,5 +29,8 @@ run:
 	else ${BIN_PATH}/$(EXEC) ;\
 	fi
 
-containers:
-	docker-compose up
+containers-build:
+	docker-compose build
+
+containers-run:
+	docker-compose up --remove-orphans
