@@ -4,19 +4,22 @@ services:
     image: postgres:alpine
     restart: always
     environment:
-      PGUSER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: goapi
+      PGUSER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: ${PG_DB_NAME}
     expose:
-    - "5432"
+    - ${PG_PORT}
   api:
     build: .
     command: ./main
     environment:
-      - PORT=:3000
-      - CONSTRING=postgresql://postgres:password@postgres:5432/goapi?sslmode=disable
+      - HTTP_PORT=:${API_PORT}
+      - DB_USER=${PG_USER}
+      - DB_PASS=${PG_PASS}
+      - DB_PORT=${PG_PORT}
+      - DB_NAME=${PG_DB_NAME}
     expose:
-    - "3000"
+    - ${API_PORT}
     depends_on:
       - postgres
     deploy:

@@ -2,10 +2,9 @@ package api
 
 import (
 	"fmt"
-	messages "msg-app/src/core/messages/controller"
 	"net/http"
-	"os"
 
+	messages "msg-app/src/core/messages/controller"
 	users "msg-app/src/core/users"
 
 	"github.com/go-chi/chi/v5"
@@ -14,13 +13,17 @@ import (
 )
 
 type API struct {
-	db     *gorm.DB
-	router *chi.Mux
+	db         *gorm.DB
+	router     *chi.Mux
+	httpConfig map[string]string
 }
 
-func NewAPI(db *gorm.DB) *API {
-	api := &API{db: db, router: chi.NewRouter()}
-	api.SetupRouter()
+func NewAPI(db *gorm.DB, httpConfig map[string]string) *API {
+	api := &API{
+		db:         db,
+		router:     chi.NewRouter(),
+		httpConfig: httpConfig}
+
 	return api
 }
 
@@ -34,11 +37,7 @@ func (api *API) SetupRouter() {
 }
 
 func (api *API) Start() {
-	port, found := os.LookupEnv("PORT")
-	if !found {
-		port = ":8080"
-	}
-
+	port := api.httpConfig["port"]
 	fmt.Printf("App listening at port %s\n", port)
 
 	if err := http.ListenAndServe(port, api.router); err != nil {

@@ -24,7 +24,6 @@ FROM gcr.io/distroless/static-debian11
 
 WORKDIR /root/
 
-COPY --from=build /app/config ./config
 COPY --from=build /app/main .
 
 CMD ["./main"]

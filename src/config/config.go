@@ -7,23 +7,40 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var (
-	localConfigPath = "./config/config-local.yaml"
-	envConfigPath   = "./config/config-docker.yaml"
-)
-
 type Conf struct {
+	Env      map[string]string `yaml:"env"`
 	Http     map[string]string `yaml:"http"`
 	Database map[string]string `yaml:"database"`
 }
 
-func (c *Conf) GetConf() *Conf {
-	config := localConfigPath
+func (c *Conf) GetConfig() *Conf {
 	if isRunningInDockerContainer() {
-		config = envConfigPath
+		dockerConfig(c)
+	} else {
+		localConfig(c)
 	}
 
-	yamlFile, err := os.ReadFile(config)
+	return c
+}
+
+func dockerConfig(c *Conf) {
+	c.Env = make(map[string]string)
+	c.Env["name"] = "docker"
+
+	c.Http = make(map[string]string)
+	c.Http["port"] = os.Getenv("HTTP_PORT")
+
+	c.Database = make(map[string]string)
+	c.Database["user"] = os.Getenv("DB_USER")
+	c.Database["pass"] = os.Getenv("DB_PASS")
+	c.Database["name"] = os.Getenv("DB_NAME")
+	c.Database["port"] = os.Getenv("DB_PORT")
+}
+
+func localConfig(c *Conf) {
+	localConfigPath := "./config-local.yaml"
+
+	yamlFile, err := os.ReadFile(localConfigPath)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
@@ -32,7 +49,6 @@ func (c *Conf) GetConf() *Conf {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 
-	return c
 }
 
 func isRunningInDockerContainer() bool {

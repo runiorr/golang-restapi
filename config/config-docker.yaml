@@ -1,3 +1,0 @@
-database:
-  type: "postgresql"
-  url: "postgresql://guest:guest@postgres:5432/goapi?sslmode=disable"
