@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"strconv"
 	"testing"
 
 	m "msg-app/src/core/users/model"
@@ -59,7 +60,8 @@ func TestUserRepository(t *testing.T) {
 		repository.Register(mockUser)
 
 		user, _ := repository.GetUserByEmail(mockUser.Email)
-		if err := repository.DeleteUserById(user.ID); err != nil {
+		id := strconv.FormatInt(user.ID, 10)
+		if err := repository.DeleteUserById(id); err != nil {
 			t.Errorf("Have error = %v, Wanted error = nil", err)
 		}
 

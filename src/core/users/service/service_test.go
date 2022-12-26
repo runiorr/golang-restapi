@@ -32,7 +32,7 @@ func (r *MockRepository) GetUserByEmail(email string) (*m.User, error) {
 
 func TestUserService(t *testing.T) {
 	mockedUsers := map[int]*m.User{
-		1: {ID: "1",
+		1: {ID: 1,
 			FirstName: "",
 			LastName:  "",
 			Email:     "",
@@ -56,7 +56,7 @@ func TestUserService(t *testing.T) {
 			}
 
 			user := m.User{
-				ID:        "2",
+				ID:        2,
 				FirstName: registerUser.FirstName,
 				LastName:  registerUser.LastName,
 				Email:     registerUser.Email,

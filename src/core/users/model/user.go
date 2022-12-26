@@ -25,7 +25,7 @@ type InUser struct {
 }
 
 type User struct {
-	ID        string `gorm:"primary_key;auto_increment;not_null"`
+	ID        int64 `gorm:"primary_key;auto_increment"`
 	FirstName string
 	LastName  string
 	Email     string `gorm:"unique"`

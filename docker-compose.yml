@@ -3,16 +3,18 @@ services:
   postgres:
     image: postgres:alpine
     restart: always
-    user: postgres
     environment:
-      PGUSER: guest
-      POSTGRES_PASSWORD: guest
+      PGUSER: postgres
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: goapi
+    expose:
+    - "5432"
   api:
     build: .
     command: ./main
     environment:
       - PORT=:3000
+      - CONSTRING=postgresql://postgres:password@postgres:5432/goapi?sslmode=disable
     expose:
     - "3000"
     depends_on:
